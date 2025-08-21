@@ -15,10 +15,11 @@ import {
   GraduationCap,
   Activity
 } from "lucide-react";
+import Assistant from "@/components/Assistant";
 
 const glitchText = `before:absolute before:inset-0 before:animate-glitch before:bg-cyan-500/30 before:mix-blend-screen relative text-cyan-300 font-mono font-bold text-4xl`;
 
-export default function CyberpunkPortfolio() {
+export function CyberpunkPortfolio() {
   const [typedText, setTypedText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -75,7 +76,7 @@ export default function CyberpunkPortfolio() {
         </motion.header>
 
         <main className="grid gap-6 lg:grid-cols-2">
-          <Card className="bg-gray-900 border border-pink-500/20 shadow shadow-pink-500/10">
+          <Card id="about" className="bg-gray-900 border border-pink-500/20 shadow shadow-pink-500/10">
             <CardContent className="p-6">
               <h2 className="text-pink-400 text-xl font-mono mb-4">About me</h2>
               <p className="text-gray-300 text-sm">
@@ -85,7 +86,7 @@ export default function CyberpunkPortfolio() {
           </Card>
 
           {/* Contacts */}
-          <Card className="bg-gray-900 border border-blue-500/20 shadow shadow-blue-500/10">
+          <Card id="contacts" className="bg-gray-900 border border-blue-500/20 shadow shadow-blue-500/10">
             <CardContent className="p-6">
               <h2 className="text-blue-400 text-xl font-mono mb-4">Contacts</h2>
               <ul className="text-sm text-gray-300 space-y-2">
@@ -109,7 +110,7 @@ export default function CyberpunkPortfolio() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-900 border border-yellow-500/20 shadow shadow-yellow-500/10 lg:col-span-2">
+          <Card id="tech" className="bg-gray-900 border border-yellow-500/20 shadow shadow-yellow-500/10 lg:col-span-2">
             <CardContent className="p-6">
               <h2 className="text-yellow-300 text-xl font-mono mb-4">Tech stack</h2>
               <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
@@ -126,7 +127,7 @@ export default function CyberpunkPortfolio() {
           </Card>
 
           {/* Experience (merged) */}
-          <Card className="bg-gray-900 border border-purple-500/20 shadow shadow-purple-500/10 lg:col-span-2">
+          <Card id="experience" className="bg-gray-900 border border-purple-500/20 shadow shadow-purple-500/10 lg:col-span-2">
             <CardContent className="p-6">
               <h2 className="text-purple-400 text-xl font-mono mb-4 flex items-center gap-2"><Briefcase className="w-4 h-4" /> Experience</h2>
               <div className="grid gap-6 text-gray-300 text-sm">
@@ -166,7 +167,7 @@ export default function CyberpunkPortfolio() {
           </Card>
 
           {/* Education */}
-          <Card className="bg-gray-900 border border-amber-500/20 shadow shadow-amber-500/10">
+          <Card id="education" className="bg-gray-900 border border-amber-500/20 shadow shadow-amber-500/10">
             <CardContent className="p-6">
               <h2 className="text-amber-400 text-xl font-mono mb-2 flex items-center gap-2"><GraduationCap className="w-4 h-4" /> Education</h2>
               <ul className="text-gray-300 text-sm space-y-2">
@@ -183,7 +184,7 @@ export default function CyberpunkPortfolio() {
           </Card>
 
           {/* Activities */}
-          <Card className="bg-gray-900 border border-cyan-500/20 shadow shadow-cyan-500/10">
+          <Card id="activities" className="bg-gray-900 border border-cyan-500/20 shadow shadow-cyan-500/10">
             <CardContent className="p-6">
               <h2 className="text-cyan-400 text-xl font-mono mb-2 flex items-center gap-2"><Activity className="w-4 h-4" /> Activities</h2>
               <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
@@ -291,3 +292,14 @@ export default function CyberpunkPortfolio() {
     </div>
   );
 }
+
+function RootWithAssistant() {
+  return (
+    <>
+      <CyberpunkPortfolio />
+      <Assistant avatarSrc="/lucy.png" />
+    </>
+  );
+}
+
+export default RootWithAssistant;
