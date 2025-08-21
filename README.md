@@ -1,2 +1,0 @@
-# about_me
-Portfolio 
