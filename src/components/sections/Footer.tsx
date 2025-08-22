@@ -6,6 +6,7 @@ export function FooterSection({ onOpenModal, resumeHref }: { onOpenModal: () => 
     <footer className="mt-16 text-center space-y-4">
       <div className="flex flex-col items-center gap-4">
         <Button
+          id="btn-contact"
           variant="outline"
           onClick={onOpenModal}
           className="text-cyan-400 hover:text-cyan-400 border-cyan-400 hover:bg-cyan-500/10 no-underline"
@@ -19,7 +20,7 @@ export function FooterSection({ onOpenModal, resumeHref }: { onOpenModal: () => 
           variant="outline"
           className="text-cyan-400 hover:text-cyan-400 border-cyan-400 hover:bg-cyan-500/10 no-underline"
         >
-          <a href={resumeHref} download>
+          <a id="btn-resume" href={resumeHref} download>
             <FileDown className="w-4 h-4" />
             Download resume (PDF)
           </a>

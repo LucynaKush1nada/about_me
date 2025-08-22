@@ -13,8 +13,21 @@ const HIGHLIGHT_CLASS =
   "ring ring-cyan-400 ring-offset-2 ring-offset-gray-900 rounded-xl animate-pulse";
 
 export function Assistant({ avatarSrc }: { avatarSrc?: string }) {
-  const [open, setOpen] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
+  const [open, setOpen] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("assistant_open") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const [stepIndex, setStepIndex] = useState<number>(() => {
+    try {
+      const v = localStorage.getItem("assistant_step");
+      return v ? Math.min(Math.max(parseInt(v, 10), 0), 10) : 0;
+    } catch {
+      return 0;
+    }
+  });
   const [blink, setBlink] = useState(false);
   const previousHighlightedId = useRef<string | null>(null);
 
@@ -23,9 +36,13 @@ export function Assistant({ avatarSrc }: { avatarSrc?: string }) {
       { id: "about", title: "About", description: "Summary about me and my focus areas." },
       { id: "contacts", title: "Contacts", description: "Reach out via email, LinkedIn or GitHub." },
       { id: "tech", title: "Tech stack", description: "Core technologies and tools used." },
-      { id: "experience", title: "Experience", description: "Career highlights and responsibilities." },
+      { id: "experience", title: "Experience", description: "Career timeline with bullets and stacks." },
+      { id: "achievements", title: "Achievements", description: "Key metrics and impact." },
+      { id: "skills", title: "Skills", description: "Skill groups as quick badges." },
       { id: "education", title: "Education", description: "Degrees and universities." },
       { id: "activities", title: "Activities", description: "Mentoring, R&D, hackathons, and more." },
+      { id: "btn-contact", title: "Contact", description: "Open the contact modal to reach out." },
+      { id: "btn-resume", title: "Resume", description: "Download the latest PDF resume." },
     ],
     []
   );
@@ -66,6 +83,14 @@ export function Assistant({ avatarSrc }: { avatarSrc?: string }) {
 
   const next = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   const prev = () => setStepIndex((i) => Math.max(i - 1, 0));
+
+  // Persist open/step
+  useEffect(() => {
+    try { localStorage.setItem("assistant_open", open ? "1" : "0"); } catch {}
+  }, [open]);
+  useEffect(() => {
+    try { localStorage.setItem("assistant_step", String(stepIndex)); } catch {}
+  }, [stepIndex]);
 
   useEffect(() => {
     let active = true;
