@@ -69,7 +69,7 @@ export function ExperienceCard() {
         <h2 className="text-purple-400 text-xl font-mono mb-4 flex items-center gap-2"><Briefcase className="w-4 h-4" /> Experience</h2>
         <div className="grid gap-6 text-gray-300 text-sm">
           <section>
-            <div className="mb-2 font-semibold">Frontend Developer — MORIZO-DIGITAL • Sep 2022 — Present</div>
+            <div className="mb-2 font-semibold">Frontend Developer — MORIZO-DIGITAL • Sep 2022 — Sep 2025</div>
             <ul className="list-disc list-inside space-y-1">
               <li>Built data clustering algorithm — 3× faster map loading.</li>
               <li>Implemented heatmap rendering algorithm attracting new stakeholders.</li>
@@ -91,7 +91,7 @@ export function ExperienceCard() {
             </ul>
           </section>
           <section>
-            <div className="mb-2 font-semibold">Fullstack Developer — MMT R-Technologies • Jun 2018 — Jun 2020</div>
+            <div className="mb-2 font-semibold">Fullstack Developer — MMTR Technologies • Jun 2018 — Jun 2020</div>
             <ul className="list-disc list-inside space-y-1">
               <li>Built the complete frontend: main site, e‑commerce, and admin panel.</li>
               <li>Developed user geolocation algorithm — 99% location accuracy.</li>
