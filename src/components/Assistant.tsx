@@ -15,6 +15,7 @@ const HIGHLIGHT_CLASS =
 export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
   const [open, setOpen] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
+  const [blink, setBlink] = useState(false);
   const previousHighlightedId = useRef<string | null>(null);
 
   const steps: TourStep[] = useMemo(
@@ -66,6 +67,25 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
   const next = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1));
   const prev = () => setStepIndex((i) => Math.max(i - 1, 0));
 
+  useEffect(() => {
+    let active = true;
+    let t: number | null = null;
+    const schedule = () => {
+      if (!active) return;
+      const delay = 2000 + Math.random() * 4000; // 2–6s
+      t = window.setTimeout(() => {
+        setBlink(true);
+        window.setTimeout(() => setBlink(false), 120);
+        schedule();
+      }, delay) as unknown as number;
+    };
+    schedule();
+    return () => {
+      active = false;
+      if (t) window.clearTimeout(t);
+    };
+  }, []);
+
   return (
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
       <AnimatePresence>
@@ -80,9 +100,12 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
           >
             <div className="flex items-start gap-3">
               <div className="shrink-0">
-                {/* Avatar */}
-                <div className="relative size-12 rounded-full overflow-hidden border border-cyan-400/50 shadow shadow-cyan-500/20">
-                  {/* Fallback to initials if image not found */}
+                {/* Avatar with idle bobbing and blink overlay */}
+                <motion.div
+                  className="relative size-12 rounded-full overflow-hidden border border-cyan-400/50 shadow shadow-cyan-500/20"
+                  animate={{ y: [0, -2, 0] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
                   <img
                     src={avatarSrc}
                     alt="Assistant avatar"
@@ -91,13 +114,24 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
                       (e.currentTarget as HTMLImageElement).style.display = "none";
                     }}
                   />
-                </div>
+                  {/* simple blink overlay */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-black"
+                    style={{
+                      opacity: blink ? 0.35 : 0,
+                      transition: "opacity 120ms linear",
+                    }}
+                  />
+                </motion.div>
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between">
                   <div className="text-cyan-300 font-mono text-sm">Kushinado — Guide</div>
                   <button
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                    }}
                     className="text-cyan-200/70 hover:text-white"
                     aria-label="Close assistant"
                   >
@@ -120,7 +154,9 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={prev}
+                      onClick={() => {
+                        prev();
+                      }}
                       disabled={stepIndex === 0}
                       className="h-8 px-2 text-cyan-300 border-cyan-400 hover:bg-cyan-500/10"
                     >
@@ -129,7 +165,9 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={next}
+                      onClick={() => {
+                        next();
+                      }}
                       disabled={stepIndex === steps.length - 1}
                       className="h-8 px-2 text-cyan-300 border-cyan-400 hover:bg-cyan-500/10"
                     >
@@ -145,7 +183,9 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
 
       <Button
         variant="outline"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          setOpen((v) => !v);
+        }}
         className="border-cyan-400 text-cyan-300 hover:bg-cyan-500/10"
         aria-expanded={open}
         aria-controls="assistant-panel"
