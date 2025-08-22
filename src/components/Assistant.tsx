@@ -12,7 +12,7 @@ type TourStep = {
 const HIGHLIGHT_CLASS =
   "ring ring-cyan-400 ring-offset-2 ring-offset-gray-900 rounded-xl animate-pulse";
 
-export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
+export function Assistant({ avatarSrc }: { avatarSrc?: string }) {
   const [open, setOpen] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [blink, setBlink] = useState(false);
@@ -86,6 +86,9 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
     };
   }, []);
 
+  const baseUrl = (import.meta as any).env?.BASE_URL ?? "/";
+  const resolvedAvatar = avatarSrc ?? `${baseUrl}lucy.png`;
+
   return (
     <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2">
       <AnimatePresence>
@@ -107,7 +110,7 @@ export function Assistant({ avatarSrc = "/lucy.png" }: { avatarSrc?: string }) {
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 >
                   <img
-                    src={avatarSrc}
+                    src={resolvedAvatar}
                     alt="Assistant avatar"
                     className="size-full object-cover"
                     onError={(e) => {

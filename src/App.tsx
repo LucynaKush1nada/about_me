@@ -24,6 +24,7 @@ export function CyberpunkPortfolio() {
   const [showModal, setShowModal] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const fullText = "Senior Frontend Developer — React / TypeScript / Next.js";
+  const baseUrl = import.meta.env.BASE_URL;
 
   useEffect(() => {
     let i = 0;
@@ -39,7 +40,7 @@ export function CyberpunkPortfolio() {
     <div
       className="min-h-screen text-white font-sans p-6 cursor-glitch relative"
       style={{
-        backgroundImage: `url('/background.jpg')`,
+        backgroundImage: `url('${baseUrl}background.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center 20%',
         backgroundAttachment: 'fixed',
